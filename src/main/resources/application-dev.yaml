@@ -1,0 +1,69 @@
+spring:
+  docker:
+    compose:
+      enabled: false
+      file: compose.yaml
+#  data:
+#    mongodb:
+#      host: 127.0.0.1
+#      port: 27017
+#      authentication-database: admin
+#      username: admin
+#      password: secret
+#      database: sensors
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8081
+
+#logging:
+#  file:
+#    name: /tmp/logs/producer.log
+
+com:
+  steadyoil:
+    mongodb:
+      host: localhost
+      #      host: app.steadyice.com
+      #      port: 27020
+      port: 27017
+      database: sensors
+      collections:
+        data_in: data-in
+        sensors: sensors
+        clients: clients
+        sequences: sequences
+      username: admin
+      password: secret
+    aes:
+      algorithm: AES/CBC/PKCS5Padding
+      password: steadyoil
+      base_id: sensor
+      salt: secret
+      iv: -25,78,61,-25,78,61,-41,125,116,-29,-34,116,-29,-35,119,-41
+    client:
+      id: 1
+      saveAgg:
+        #        ms: 10000
+        offsetMin: 10
+    cors:
+      #      url: "http://localhost:8080"
+      url: "*"
+
+    mail:
+#      thresholdCheckMs: 60000
+mqtt:
+  broker:
+    url: tcp://oil.steadyice.com:1883
+    username: sensortest1
+    password: sensortest1
+    client_id: steady_oil_server_dev
+  topic:
+    subscribe: sensor/data
+    publish: sensor/cmd
+  qos:
+    subscribe: 0
+    publish: 0
+  retain:
+    publish: true

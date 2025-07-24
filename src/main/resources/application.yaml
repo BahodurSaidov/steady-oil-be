@@ -1,0 +1,91 @@
+info:
+  app:
+    version: @project.version@
+    timestamp: @maven.build.timestamp@
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+spring:
+  docker:
+    compose:
+      enabled: false
+      file: compose.yaml
+#  data:
+#    mongodb:
+#      host: 127.0.0.1
+#      port: 27017
+#      authentication-database: admin
+#      username: admin
+#      password: secret
+#      database: sensors
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8081
+
+#logging:
+#  file:
+#    name: /tmp/logs/producer.log
+
+com:
+  steadyoil:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: sensors
+      collections:
+        data_agg_1_min: data-agg-1-min
+        data_in: data-in
+        sensors: sensors
+        clients: clients
+        sequences: sequences
+        notifications: notifications
+      username: admin
+      password: secret
+    aes:
+      algorithm: AES/CBC/PKCS5Padding
+      password: steadyoil
+      base_id: sensor
+      salt: secret
+      iv: -25,78,61,-25,78,61,-41,125,116,-29,-34,116,-29,-35,119,-41
+    client:
+      id: 1
+      saveAgg:
+        ms: 600000
+        lastMin: 1440
+        precisionMin: 1
+        offsetMin: 10
+    cors:
+      url: "*"
+    mail:
+      statusCheckMs: 3600000
+      thresholdCheckMs: 900000
+      thresholdMinCount: 20
+      thresholdLastMinutes: 15
+      key: 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
+      from: noreply@steadyice.com
+
+mqtt:
+  broker:
+    url: tcp://oil.steadyice.com:1883
+    username: sensortest1
+    password: sensortest1
+    client_id: steady_oil_server_1
+    api_url: http://oil.steadyice.com:18083/api/v5/
+    api_token: c1a713caeaf6a022
+    api_secret: H9AIdzIdcnD0ngllGdUPORw9BNqmcEMwFoaQ9AwzDyLJUC
+  topic:
+    subscribe: sensor/data
+    publish: sensor/cmd
+  qos:
+    subscribe: 0
+    publish: 0
+  retain:
+    publish: true
