@@ -70,15 +70,15 @@ com:
       thresholdMinCount: 20
       thresholdLastMinutes: 15
       key: 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
-      from: noreply@steadyice.com
+      from: noreply@steadyoil.com
 
 mqtt:
   broker:
-    url: tcp://oil.steadyice.com:1883
+    url: tcp://app.steadyoil.com:1883
     username: sensortest1
     password: sensortest1
     client_id: steady_oil_server_1
-    api_url: http://oil.steadyice.com:18083/api/v5/
+    api_url: http://app.steadyoil.com:18083/api/v5/
     api_token: c1a713caeaf6a022
     api_secret: H9AIdzIdcnD0ngllGdUPORw9BNqmcEMwFoaQ9AwzDyLJUC
   topic:
