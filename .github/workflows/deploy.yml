@@ -54,4 +54,4 @@ jobs:
           
       - name: Restart app
         run: 
-          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "sudo systemctl restart steadyoil"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "cd ~/deploy && docker-compose up --build -d"
