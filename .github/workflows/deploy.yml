@@ -1,0 +1,57 @@
+name: CI/CD Build and Deploy Pipeline
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # - name: Write RSA keys to files
+      #   run: |
+      #     mkdir -p src/main/resources/certs
+      #     echo "${{ secrets.CERT_PUBLIC_KEY }}" > src/main/resources/certs/public.pem
+      #     echo "${{ secrets.CERT_PRIVATE_KEY }}" > src/main/resources/certs/private.pem
+
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots verify
+
+      - name: Staging
+        run: mkdir staging && cp target/*.jar staging
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: staging
+
+      - name: Verify JAR file exists
+        run: |
+          if [ ! -f staging/*.jar ]; then
+            echo "JAR file not found!"
+            exit 1
+          fi
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to DO Droplet
+        run: 
+          scp -o StrictHostKeyChecking=no staging/*.jar ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/home/${{ secrets.DO_USER }}/app.jar
+          
+      - name: Restart app
+        run: 
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "sudo systemctl restart steadyoil"
