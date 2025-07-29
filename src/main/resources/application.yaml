@@ -74,13 +74,13 @@ com:
 
 mqtt:
   broker:
-    url: tcp://app.steadyoil.com:1883
-    username: sensortest1
-    password: sensortest1
+    url: tcp://app.steadyoil.com:1983
+    username: sensor_server_1
+    password: sensor_server_1
     client_id: steady_oil_server_1
-    api_url: http://app.steadyoil.com:18083/api/v5/
-    api_token: c1a713caeaf6a022
-    api_secret: H9AIdzIdcnD0ngllGdUPORw9BNqmcEMwFoaQ9AwzDyLJUC
+    api_url: http://app.steadyoil.com:19083/api/v5/
+    api_token: 51f690a1893db734
+    api_secret: TpRMpvDU67SF9BwzCb3gA8SQSn4Vd56EhO02u5T1O1DM
   topic:
     subscribe: sensor/data
     publish: sensor/cmd
