@@ -25,7 +25,7 @@ com:
   steadyoil:
     mongodb:
       host: localhost
-      #      host: app.steadyice.com
+      #      host: app.steadyoil.com
       #      port: 27020
       port: 27017
       database: sensors
@@ -55,7 +55,7 @@ com:
 #      thresholdCheckMs: 60000
 mqtt:
   broker:
-    url: tcp://oil.steadyice.com:1883
+    url: tcp://app.steadyoil.com:1883
     username: sensortest1
     password: sensortest1
     client_id: steady_oil_server_dev
