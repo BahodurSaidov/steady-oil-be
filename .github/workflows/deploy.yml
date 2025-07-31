@@ -50,8 +50,9 @@ jobs:
 
       - name: Deploy to DO Droplet
         run: 
-          scp -o StrictHostKeyChecking=no staging/*.jar ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/home/${{ secrets.DO_USER }}/deploy/be/app.jar
+          scp -P 2222 -o StrictHostKeyChecking=no staging/*.jar ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/home/${{ secrets.DO_USER }}/deploy/be/app.jar
           
-      - name: Run docker-compose build
+      - name: Rebuild docker images and run
         run: 
-          ssh -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "cd ~/deploy && docker-compose up --build -d"
+          ssh -p 2222 -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "cd ~/deploy && docker-compose up --build -d"
+          
