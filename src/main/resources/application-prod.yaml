@@ -1,0 +1,4 @@
+management:
+  metrics:
+    enable:
+      processor: false

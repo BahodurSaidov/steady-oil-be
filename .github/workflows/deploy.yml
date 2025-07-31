@@ -25,7 +25,7 @@ jobs:
       #     echo "${{ secrets.CERT_PRIVATE_KEY }}" > src/main/resources/certs/private.pem
 
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn clean install -DskipTests
 
       - name: Staging
         run: mkdir staging && cp target/*.jar staging
@@ -49,10 +49,10 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to DO Droplet
-        run: 
+        run:
           scp -P 2222 -o StrictHostKeyChecking=no staging/*.jar ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/home/${{ secrets.DO_USER }}/deploy/be/app.jar
-          
+
       - name: Rebuild docker images and run
-        run: 
+        run:
           ssh -p 2222 -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} "cd ~/deploy && docker-compose up --build -d"
           
